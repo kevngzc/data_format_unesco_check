@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNESCO Data Quality Checker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>UNESCO Data Quality Checker</h1>
+            <p>Validate CSV files against UNESCO data quality standards</p>
+        </header>
+
+        <div class="upload-section">
+            <div class="drop-zone" id="dropZone">
+                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <h2>Drop CSV file here</h2>
+                <p>or</p>
+                <button class="browse-btn" id="browseBtn">Browse Files</button>
+                <input type="file" id="fileInput" accept=".csv" hidden>
+                <p class="file-info">Supported format: CSV</p>
+            </div>
+
+            <div class="file-preview" id="filePreview" style="display: none;">
+                <div class="file-preview-header">
+                    <div class="file-preview-info">
+                    <svg class="file-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <div class="file-name" id="fileName"></div>
+                        <div class="file-size" id="fileSize"></div>
+                    </div>
+                    </div>
+                    <button class="remove-btn" id="removeBtn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="validation-section" id="validationSection" style="display: none;">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="validation-status" id="validationStatus"></div>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="summary-cards">
+                <div class="summary-card success-card">
+                    <h3>Compliant Rows</h3>
+                    <div class="summary-number" id="compliantCount">0</div>
+                </div>
+                <div class="summary-card error-card">
+                    <h3>Non-Compliant Rows</h3>
+                    <div class="summary-number" id="errorCount">0</div>
+                </div>
+                <div class="summary-card warning-card">
+                    <h3>Total Rows</h3>
+                    <div class="summary-number" id="totalCount">0</div>
+                </div>
+            </div>
+
+            <div class="results-details">
+                <div class="results-header">
+                    <h2>Validation Results</h2>
+                    <div class="results-actions">
+                        <button class="btn btn-secondary" id="exportBtn">Export Report</button>
+                        <button class="btn btn-primary" id="downloadFixedBtn">Download Fixed CSV</button>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-filter="all">All Issues</button>
+                    <button class="tab-btn" data-filter="error">Errors</button>
+                    <button class="tab-btn" data-filter="warning">Warnings</button>
+                </div>
+
+                <div class="issues-list" id="issuesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="validator.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
