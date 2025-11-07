@@ -2,6 +2,12 @@
 
 A drag-and-drop web application for validating CSV files against UNESCO data quality standards.
 
+## Live Demo
+
+**🚀 [Try it now](https://kevngzc.github.io/data_format_unesco_check/)**
+
+The application is live and ready to use. No installation required - just open the link and start validating your CSV files!
+
 ## Features
 
 - **Drag-and-Drop Interface**: Easy file upload with visual feedback
