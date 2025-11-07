@@ -1,0 +1,4 @@
+id,uuid,title,description,terms,date,country_code,language_code,email,phone,website,gender,price,is_active
+DCE001,550e8400-e29b-41d4-a716-446655440000,UNESCO Report 2024,Annual report on education,"[""Education"",""Culture""]",2024-02-20,FR,en,contact@unesco.org,+33 1 2345 6789,https://www.unesco.org,male,1234567890.12,true
+dce002,invalid-uuid,Test Report,Sample description,Education Culture,02/20/2024,fr,EN,invalid-email,123456789,www.example.com,Male,1,234,567.890,TRUE
+DCE003,,Another Report,Description here,"['Science', 'Research']",2024-13-45,USA,french,test@test.com,+1-555-1234,http://example.org,Female,999.999,yes
