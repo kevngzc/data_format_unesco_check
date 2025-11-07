@@ -17,6 +17,10 @@ class UNESCOValidator {
         this.errors = [];
         this.warnings = [];
         this.fixes = {};
+        this.missingColumnsWarned = false; // Track if we've warned about missing columns
+
+        // Check for missing ID/UUID columns once at the start
+        this.checkMissingColumns(headers);
 
         data.forEach((row, rowIndex) => {
             const actualRowNumber = rowIndex + 2; // +2 for header and 0-index
@@ -43,7 +47,7 @@ class UNESCOValidator {
                 this.validateField(actualRowNumber, fieldName, value);
             });
 
-            // Check for UUID and ID fields
+            // Check for UUID and ID fields (but don't warn about missing columns per row)
             this.validateIdentifiers(row, headers, actualRowNumber);
         });
 
@@ -53,6 +57,34 @@ class UNESCOValidator {
             fixes: this.fixes,
             isValid: this.errors.length === 0
         };
+    }
+
+    /**
+     * Check for missing ID/UUID columns once per dataset
+     */
+    checkMissingColumns(headers) {
+        const hasIdColumn = headers.some(h => h.toLowerCase() === 'id');
+        const hasUuidColumn = headers.some(h => h.toLowerCase() === 'uuid');
+
+        if (!hasIdColumn) {
+            this.addWarning(
+                'Header',
+                'id',
+                'Missing "id" column in dataset',
+                'Consider adding an "id" column with standard IDs (e.g., DCE001). This is optional but recommended per UNESCO standards.',
+                ''
+            );
+        }
+
+        if (!hasUuidColumn) {
+            this.addWarning(
+                'Header',
+                'uuid',
+                'Missing "uuid" column in dataset',
+                'Consider adding a "uuid" column with UUID v4 identifiers. This is optional but recommended per UNESCO standards.',
+                ''
+            );
+        }
     }
 
     /**
@@ -123,12 +155,29 @@ class UNESCOValidator {
     }
 
     /**
-     * Date validation - ISO 8601 format (YYYY-MM-DD)
+     * Date validation - ISO 8601 format (YYYY-MM-DD or full datetime)
      */
     validateDate(row, fieldName, value) {
-        const iso8601Pattern = /^\d{4}-\d{2}-\d{2}$/;
+        // Accept both date-only (YYYY-MM-DD) and full datetime (YYYY-MM-DDTHH:MM:SS+TZ)
+        const iso8601DatePattern = /^\d{4}-\d{2}-\d{2}$/;
+        const iso8601DateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)?$/;
 
-        if (!iso8601Pattern.test(value)) {
+        // Check if it's a full datetime format - this is valid ISO 8601
+        if (iso8601DateTimePattern.test(value)) {
+            // Extract just the date part for suggestion
+            const dateOnly = value.split('T')[0];
+            this.addWarning(
+                row,
+                fieldName,
+                `Date includes time information. ISO 8601 datetime format is valid.`,
+                `If only date is needed, use: ${dateOnly}`,
+                value,
+                dateOnly
+            );
+            return;
+        }
+
+        if (!iso8601DatePattern.test(value)) {
             const fixedValue = this.attemptDateFix(value);
             this.addError(
                 row,
@@ -596,6 +645,7 @@ class UNESCOValidator {
         const hasIdColumn = headers.some(h => h.toLowerCase() === 'id');
         const hasUuidColumn = headers.some(h => h.toLowerCase() === 'uuid');
 
+        // Only validate if columns exist (missing column warnings are handled in checkMissingColumns)
         if (hasIdColumn) {
             const idIndex = headers.findIndex(h => h.toLowerCase() === 'id');
             const idValue = row[idIndex];
@@ -653,26 +703,6 @@ class UNESCOValidator {
                 }
             }
         }
-
-        if (!hasIdColumn) {
-            this.addWarning(
-                rowNumber,
-                'id',
-                'Missing "id" column in dataset',
-                'Add an "id" column with standard IDs (e.g., DCE001)',
-                ''
-            );
-        }
-
-        if (!hasUuidColumn) {
-            this.addWarning(
-                rowNumber,
-                'uuid',
-                'Missing "uuid" column in dataset',
-                'Add a "uuid" column with UUID v4 identifiers',
-                ''
-            );
-        }
     }
 
     /**
@@ -708,7 +738,19 @@ class UNESCOValidator {
     }
 
     isNumericField(fieldName) {
-        return fieldName.includes('price') || fieldName.includes('amount') || fieldName.includes('value') || fieldName.includes('count') || fieldName.includes('number') || fieldName.includes('quantity');
+        // Be more specific to avoid false positives like "country" containing "count"
+        // Check for exact matches or specific patterns
+        if (fieldName.includes('country') || fieldName.includes('language')) {
+            return false; // Explicitly exclude country/language fields
+        }
+        return fieldName.includes('price') ||
+               fieldName.includes('amount') ||
+               fieldName.includes('value') ||
+               fieldName.match(/\bcount\b/) || // Use word boundary for "count"
+               fieldName.includes('number') ||
+               fieldName.includes('quantity') ||
+               fieldName.includes('total') ||
+               fieldName.includes('sum');
     }
 
     generateUUID() {
