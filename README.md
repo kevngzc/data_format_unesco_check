@@ -1,37 +1,50 @@
-# UNESCO Data Quality Checker
+# UNESCO Data Governance Framework - Data Quality Validation Tool
 
-A drag-and-drop web application for validating CSV files against UNESCO data quality standards.
+Official UNESCO tool for validating CSV datasets against the UNESCO Data Governance Framework standards and data quality requirements.
 
 ## Live Demo
 
 **🚀 [Try it now](https://kevngzc.github.io/data_format_unesco_check/)**
 
-The application is live and ready to use. No installation required - just open the link and start validating your CSV files!
+The application is live and ready to use. No installation required - just open the link and start validating your CSV datasets against UNESCO Data Governance standards!
+
+## About UNESCO Data Governance Framework
+
+This tool is designed to support UNESCO's Data Governance Framework by ensuring data quality, consistency, and compliance with international standards. It validates datasets against UNESCO's internal data governance policies and metadata requirements.
 
 ## Features
 
-- **Drag-and-Drop Interface**: Easy file upload with visual feedback
-- **Comprehensive Validation**: Checks against all UNESCO data quality rules including:
-  - Metadata standards (DCAT, Dublin Core)
-  - Data types and formatting (arrays, dates, country codes, phone numbers)
-  - ISO standards (ISO 8601, ISO 3166-1, ISO 639-1)
-  - UUID and ID management
-  - Multilingual support
-  - Gender standards (Schema.org GenderType)
-- **Detailed Error Reporting**: Clear error messages with row and column location
-- **Automatic Fix Suggestions**: Smart suggestions for common data quality issues
+- **Intuitive Drag-and-Drop Interface**: Easy file upload with visual feedback
+- **Comprehensive Data Governance Validation**: Checks against all UNESCO data quality rules including:
+  - Metadata standards (DCAT, Dublin Core) as per UNESCO guidelines
+  - Data types and formatting standards (arrays, dates, country codes, phone numbers)
+  - ISO compliance (ISO 8601, ISO 3166-1, ISO 639-1)
+  - UUID and ID management per UNESCO requirements
+  - Multilingual metadata support (6 UNESCO official languages)
+  - Schema.org standards for structured data
+- **Detailed Compliance Reporting**: Clear error messages with precise row and column location
+- **Intelligent Fix Suggestions**: Smart recommendations for common data quality issues
 - **Export Capabilities**:
-  - Download validation report as JSON
-  - Download fixed CSV with automatic corrections applied
-- **Visual Dashboard**: Summary cards showing compliant vs non-compliant rows
-- **Filter Options**: View all issues, errors only, or warnings only
+  - Download detailed validation report as JSON
+  - Download corrected CSV with automatic fixes applied
+- **Visual Compliance Dashboard**: Summary cards showing compliant vs non-compliant rows
+- **Flexible Filtering**: View all issues, errors only, or warnings only
+
+## Data Governance Compliance
+
+This tool ensures your datasets comply with:
+- **UNESCO Data Quality Standards**: Format, structure, and content requirements
+- **Metadata Completeness**: Required fields and recommended metadata elements
+- **International Standards**: ISO 8601, ISO 3166-1, ISO 639-1, E.164, RFC 8259
+- **Interoperability**: DCAT and Dublin Core metadata vocabularies
+- **Accessibility**: Multilingual support and structured data principles
 
 ## Quick Start
 
-1. Open `index.html` in a web browser
-2. Drag and drop a CSV file or click "Browse Files"
-3. Review validation results
-4. Download fixed CSV or export detailed report
+1. Open the application at [https://kevngzc.github.io/data_format_unesco_check/](https://kevngzc.github.io/data_format_unesco_check/)
+2. Drag and drop your CSV dataset or click "Browse Files"
+3. Review the validation results and compliance report
+4. Download the corrected CSV with automatic fixes or export a detailed report
 
 ## Usage
 
@@ -154,13 +167,24 @@ Requires a modern browser with ES6 support.
 - Quote fields containing commas, quotes, or newlines
 - UTF-8 encoding recommended
 
-## Required Fields
+## Data Governance Requirements
 
-The following fields are considered required and will generate errors if empty:
-- `id`: Standard ID (e.g., DCE001)
-- `uuid`: UUID v4 identifier
-- `title`: Dataset/item title
-- `description`: Content description
+### Required Fields
+
+The following fields are required per UNESCO Data Governance Framework and will generate errors if empty:
+- `id`: Standard ID using UNESCO naming convention (e.g., DCE001)
+- `uuid`: UUID v4 identifier for global uniqueness
+- `title`: Dataset or item title
+- `description`: Comprehensive content description
+
+### Recommended Fields
+
+For full Data Governance compliance, datasets should include:
+- Contact information (email, phone, website)
+- Geographic information (country codes, coordinates)
+- Temporal information (dates in ISO 8601 format)
+- Classification metadata (terms, themes, categories)
+- Multilingual metadata for international accessibility
 
 ## Multilingual Support
 
@@ -214,14 +238,51 @@ The application is built with vanilla JavaScript and requires no build process o
 
 See LICENSE file for details.
 
+## UNESCO Data Governance Framework
+
+This tool is part of UNESCO's comprehensive Data Governance Framework, which includes:
+
+### Core Principles
+- **Data Quality**: Ensuring accuracy, completeness, and consistency
+- **Metadata Standards**: Compliance with DCAT and Dublin Core
+- **Interoperability**: Integration with external systems and data catalogs
+- **Accessibility**: Multilingual support and standardized formats
+- **Transparency**: Clear documentation and validation reports
+- **Compliance**: Adherence to international standards (ISO, W3C, Schema.org)
+
+### Key Standards
+- **ISO 8601**: Date and time representation
+- **ISO 3166-1**: Country codes (alpha-2)
+- **ISO 639-1**: Language codes
+- **E.164**: International telephone numbering
+- **RFC 8259**: JSON data interchange format
+- **DCAT**: Data Catalog Vocabulary (W3C Recommendation)
+- **Dublin Core**: Metadata element set
+- **Schema.org**: Structured data markup
+
+### Reference Datasets (SSOT)
+UNESCO maintains Single Source of Truth (SSOT) datasets:
+- **PAX001**: Member States, regional and electoral groups
+- **LA0001**: Legal instruments and their descriptions
+- **UNESCO Thesaurus**: Controlled vocabularies (vocabularies.unesco.org)
+
 ## Contributing
 
 Contributions are welcome! Please ensure any new validation rules are:
-1. Based on UNESCO standards documentation
-2. Include automatic fix suggestions where possible
-3. Provide clear error messages
-4. Include test cases
+1. Aligned with UNESCO Data Governance Framework policies
+2. Based on official UNESCO standards documentation
+3. Include automatic fix suggestions where possible
+4. Provide clear, actionable error messages
+5. Include comprehensive test cases
+6. Support multilingual metadata validation
 
 ## Support
 
-For issues or questions, please refer to the UNESCO data quality standards documentation.
+For questions about UNESCO Data Governance Framework or this validation tool:
+- Review the UNESCO data quality standards documentation
+- Contact UNESCO Data Governance team
+- Visit [unesco.org](https://www.unesco.org) for more information
+
+## Disclaimer
+
+This tool is designed to support UNESCO's Data Governance Framework. While it validates against established standards, users are responsible for ensuring their data meets all applicable UNESCO policies and requirements.
